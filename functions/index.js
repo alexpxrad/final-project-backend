@@ -29,17 +29,19 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-app.listen(4040, () => console.log('api listening on port 4040'))
+app.listen(9000, () => console.log('api listening on port 9000'))
 
 
 app.get('/activity', async (req, res) => {
-   const allActivities = await (await (await activities.find().toArray()).reverse())
-   res.send(allActivities)
+    const allActivities = await (await (await activities.find().toArray()).reverse())
+    res.send(allActivities)
 })
 
 app.post('/activity/postactivity', async (req, res) => {
-    
-    await activities.insertOne(req.body )
+            const createdDt = new Date()
+
+
+    await activities.insertOne({...req.body, created: createdDt})
     res.send({'Item was added to Mongo': true})
 })
 
